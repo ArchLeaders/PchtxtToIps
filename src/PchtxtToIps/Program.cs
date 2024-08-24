@@ -1,4 +1,5 @@
 ﻿using Avalonia;
+using PchtxtToIps.Core;
 using PchtxtToIps.Helpers;
 
 namespace PchtxtToIps;
@@ -60,7 +61,23 @@ public class Program
             }
 
             string input = args[i];
-            // TODO: convert input into output
+            ReadOnlySpan<char> ext = Path.GetExtension(input.AsSpan());
+
+            if (ext is ".ips") {
+                NsoPatch patch = NsoPatch.FromIpsFile(input);
+                patch.WritePchtxt(Path.Combine(output, $"{Path.GetFileNameWithoutExtension(input.AsSpan())}.pchtxt"));
+                continue;
+            }
+
+            if (ext is ".pchtxt") {
+                NsoPatch patch = NsoPatch.FromPchtxtFile(input);
+                patch.WriteIps(output);
+                continue;
+            }
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine($"[Warning] Invalid input: '{input}'");
+            Console.ResetColor();
         }
     }
 }

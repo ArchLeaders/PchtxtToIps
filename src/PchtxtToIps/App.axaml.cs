@@ -9,6 +9,7 @@ namespace PchtxtToIps;
 
 public partial class App : Application
 {
+    public static Visual XamlRoot { get; private set; } = null!;
     public static IStorageProvider StorageProvider { get; private set; } = null!;
 
     public override void Initialize()
@@ -27,6 +28,7 @@ public partial class App : Application
             };
 
             StorageProvider = desktop.MainWindow.StorageProvider;
+            XamlRoot = desktop.MainWindow;
         }
 
         base.OnFrameworkInitializationCompleted();

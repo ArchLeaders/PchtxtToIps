@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PchtxtToIps", "PchtxtToIps\PchtxtToIps.csproj", "{70CAFE3C-54D1-495B-BD9B-ED3BF6EA9B09}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PchtxtToIps.Core", "PchtxtToIps.Core\PchtxtToIps.Core.csproj", "{5D7E650E-9F10-44FD-A0EA-BA17111458B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +17,15 @@ Global
 		{70CAFE3C-54D1-495B-BD9B-ED3BF6EA9B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70CAFE3C-54D1-495B-BD9B-ED3BF6EA9B09}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70CAFE3C-54D1-495B-BD9B-ED3BF6EA9B09}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D7E650E-9F10-44FD-A0EA-BA17111458B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D7E650E-9F10-44FD-A0EA-BA17111458B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D7E650E-9F10-44FD-A0EA-BA17111458B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D7E650E-9F10-44FD-A0EA-BA17111458B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C5B2582-2427-4935-A196-61D53C0E340D}
 	EndGlobalSection
 EndGlobal
