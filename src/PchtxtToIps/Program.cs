@@ -42,7 +42,7 @@ public class Program
 
     private static void ProcessCli(string[] args)
     {
-        int excludeIndex = -1;
+        int excludeIndex = -2;
         string output = Directory.GetCurrentDirectory();
 
         for (int i = 0; i < args.Length; i++) {
