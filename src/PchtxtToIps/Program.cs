@@ -3,11 +3,15 @@ using PchtxtToIps.Helpers;
 
 namespace PchtxtToIps;
 
-class Program
+public class Program
 {
+    public static readonly string Title = "PchTxt to IPS Converter";
+
     [STAThread]
     public static void Main(string[] args)
     {
+        Console.Title = Title;
+
         if (args.Length > 0) {
             return;
         }

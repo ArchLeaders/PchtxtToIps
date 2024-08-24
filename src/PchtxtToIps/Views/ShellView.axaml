@@ -3,12 +3,76 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:app="using:PchtxtToIps"
+               xmlns:converters="using:PchtxtToIps.Converters"
+               xmlns:sys="using:System"
                xmlns:uiw="using:FluentAvalonia.UI.Windowing"
                xmlns:vm="using:PchtxtToIps.ViewModels"
-               Title="ShellView"
+               Title="{x:Static app:Program.Title}"
+               Width="650"
+               Height="400"
                d:DesignHeight="450"
                d:DesignWidth="800"
                x:DataType="vm:ShellViewModel"
                mc:Ignorable="d">
-    Welcome to Avalonia!
+    <Grid Name="DropTarget"
+          Background="Transparent"
+          DragDrop.AllowDrop="True"
+          RowDefinitions="*,Auto">
+        <ListBox Margin="15" ItemsSource="{Binding Targets}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Spacing="5" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate x:DataType="{x:Type sys:String}">
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock VerticalAlignment="Center"
+                                   Text="{Binding Converter={x:Static converters:FileNameConverter.Instance}}"
+                                   ToolTip.Tip="{Binding}" />
+                        <Button Grid.Column="1"
+                                Margin="5,0,0,0"
+                                Padding="2"
+                                x:CompileBindings="False"
+                                Command="{Binding #DropTarget.DataContext.RemoveItemCommand}"
+                                CommandParameter="{Binding}"
+                                Content="❌" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Grid.RowSpan="2"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="18"
+                   FontStyle="Italic"
+                   IsVisible="{Binding !Targets.Count}"
+                   Opacity="0.9"
+                   Text="Drag and drop a file to convert." />
+
+        <Grid Grid.Row="1"
+              Margin="10"
+              ColumnDefinitions="Auto,*,Auto">
+            <Button Command="{Binding BrowseCommand}" Content="Browse" />
+            <TextBox Grid.Column="1"
+                     Margin="5,0"
+                     Text="{Binding OutputFolder}"
+                     ToolTip.Tip="Output Folder"
+                     Watermark="Output Folder" />
+            <Button Grid.Column="2"
+                    Classes="accent"
+                    Command="{Binding ConvertCommand}"
+                    Content="Convert"
+                    ToolTip.Tip="Converts every imported file to the opposite file type and saves them to the output folder." />
+        </Grid>
+
+        <!--  Drag/drop opacity mask (user feedback layer)  -->
+        <Border Name="OpacityMask"
+                Grid.RowSpan="2"
+                Background="Black"
+                IsHitTestVisible="False"
+                Opacity="0" />
+    </Grid>
 </uiw:AppWindow>

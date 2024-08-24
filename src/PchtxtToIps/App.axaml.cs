@@ -2,12 +2,15 @@
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Data.Core.Plugins;
 using Avalonia.Markup.Xaml;
+using Avalonia.Platform.Storage;
 using PchtxtToIps.ViewModels;
 
 namespace PchtxtToIps;
 
 public partial class App : Application
 {
+    public static IStorageProvider StorageProvider { get; private set; } = null!;
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -22,6 +25,8 @@ public partial class App : Application
             desktop.MainWindow = new ShellView {
                 DataContext = new ShellViewModel()
             };
+
+            StorageProvider = desktop.MainWindow.StorageProvider;
         }
 
         base.OnFrameworkInitializationCompleted();
