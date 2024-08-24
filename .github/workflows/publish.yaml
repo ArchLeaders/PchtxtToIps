@@ -1,0 +1,102 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "v*"
+
+env:
+  proj: "PchtxtToIps"
+
+jobs:
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    permissions: write-all
+    outputs:
+      release: ${{ steps.release.outputs.upload_url }}
+      version: ${{ steps.version.outputs.version-without-v }}
+
+    steps:
+      - name: Get Version
+        uses: battila7/get-version-action@v2.2.1
+        id: version
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: ${{ env.proj }} - ${{ steps.version.outputs.version }}
+          prerelease: ${{ contains(steps.version.outputs.version, 'alpha') || contains(steps.version.outputs.version, 'beta') || contains(steps.version.outputs.version, 'rc') }}
+
+  build:
+    needs: release
+    permissions: write-all
+    name: Build ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        config:
+          - name: Windows (x64)
+            os: ubuntu-latest
+            runtime: win-x64
+          - name: Windows (arm64)
+            os: ubuntu-latest
+            runtime: win-arm64
+          - name: Linux (x64)
+            os: ubuntu-latest
+            runtime: linux-x64
+          - name: Linux (arm64)
+            os: ubuntu-latest
+            runtime: linux-arm64
+          - name: MacOS (x64)
+            os: ubuntu-latest
+            runtime: osx-x64
+          - name: MacOS (arm64)
+            os: ubuntu-latest
+            runtime: osx-arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+
+      - name: Setup .NET SDK
+        uses: actions/setup-dotnet@v4.0.0
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Build
+        shell: bash
+        run: |
+          dotnet publish src/${{ env.proj }} \
+          -c Release \
+          -o ${{ matrix.config.runtime }} \
+          -r ${{ matrix.config.runtime }} \
+          --sc false \
+          --version-suffix ${{ needs.release.outputs.version }} \
+          -p:DebugType=none \
+          -p:IncludeNativeLibrariesForSelfExtract=true \
+          -p:PublishSingleFile=true \
+          -p:Version=${{ needs.release.outputs.version }} \
+
+      - name: Archive Build
+        uses: TheDoctor0/zip-release@0.7.6
+        with:
+          type: zip
+          filename: ../${{ matrix.config.runtime }}.zip
+          directory: ${{ matrix.config.runtime }}
+          path: ./**
+
+      - name: Upload Release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
+        with:
+          upload_url: ${{ needs.release.outputs.release }}
+          asset_path: ${{ matrix.config.runtime }}.zip
+          asset_name: ${{ env.proj }}-${{ matrix.config.runtime }}.zip
+          asset_content_type: application/zip
