@@ -1,0 +1,14 @@
+<uiw:AppWindow x:Class="PchtxtToIps.ShellView"
+               xmlns="https://github.com/avaloniaui"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:uiw="using:FluentAvalonia.UI.Windowing"
+               xmlns:vm="using:PchtxtToIps.ViewModels"
+               Title="ShellView"
+               d:DesignHeight="450"
+               d:DesignWidth="800"
+               x:DataType="vm:ShellViewModel"
+               mc:Ignorable="d">
+    Welcome to Avalonia!
+</uiw:AppWindow>
