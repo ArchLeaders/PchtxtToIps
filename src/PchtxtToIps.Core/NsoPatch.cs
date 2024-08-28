@@ -166,7 +166,7 @@ public class NsoPatch(string nsoId, Dictionary<uint, uint> entries)
         writer.WriteLine($"""
 
             @flag print_values
-            @flag offset_shift {NSO_OFFSET_SHIFT:x3}
+            @flag offset_shift 0x{NSO_OFFSET_SHIFT:x3}
 
             @enabled
             """);
