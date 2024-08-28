@@ -2,7 +2,7 @@
 
 [![License](https://img.shields.io/badge/License-MIT-blue.svg?logo=github&logoColor=5751ff&labelColor=2A2C33&color=5751ff&style=for-the-badge)](https://github.com/ArchLeaders/PchtxtToIps/blob/master/License.md) [![Downloads](https://img.shields.io/github/downloads/ArchLeaders/PchtxtToIps/total?label=downloads&logo=github&logoColor=37c75e&labelColor=2A2C33&color=37c75e&style=for-the-badge)](https://github.com/ArchLeaders/PchtxtToIps/releases) [![Latest](https://img.shields.io/github/v/tag/ArchLeaders/PchtxtToIps?label=Release&logo=github&logoColor=324fff&color=324fff&labelColor=2A2C33&style=for-the-badge)](https://github.com/ArchLeaders/PchtxtToIps/releases/latest)
 
-Simple CLI tool to convert MSBT files to/from YAML
+Simple CLI tool to convert PCHTXT files to IPS files and vice versa.
 
 - [Pchtxt to IPS](#pchtxt-to-ips)
 - [Usage](#usage)
@@ -22,17 +22,9 @@ Simple CLI tool to convert MSBT files to/from YAML
 
 # Usage
 
-> [!NOTE]
-> *File extensions are ignored. **Every** file is assumed to be a **YAML** file unless the `MsgStdBn` magic is found.*
+The input file can either be a **PCHTXT** or **IPS** file. The output file will always be the converted input file and IPS files will always be named after the NSO ID.
 
-The input file can either be a **YAML** or **MSBT** file. The output file will always be the converted input file (regardless of the extension).
-
-The tool can take any number of inputs immediately followed by `-o` or `--output` to specify a custom output path for the input (see examples).
-
-Use `-f` or `--function-map` to load a function map file. This function map file will be used for every following conversion until the flag is used again. Setting the function map to `null`, `none`, `default` or `~` will reset the function map file.
-
-> [!NOTE]
-> [Aeon's](https://gitlab.com/AeonSake) `mfm` format is not supported, however you can use [MfmToYaml](https://github.com/ArchLeaders/MfmToYaml) to convert `mfm` files to YAML.
+The tool can take any number of inputs followed by `-o` or `--output` to specify the output folder for every input (see examples).
 
 ## Single Input/Output
 
